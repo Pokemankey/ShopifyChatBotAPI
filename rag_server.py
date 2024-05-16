@@ -22,8 +22,6 @@ origins = ["*"]
 
 dotenv.load_dotenv()
 
-url=os.getenv("QDRANT_HOST"),
-qdrant_api_key=os.getenv("QDRANT_API_KEY")
 os.environ["OPENAI_API_KEY"]
 
 app.add_middleware(
@@ -49,8 +47,8 @@ llm_35_00 = ChatOpenAI(model_name="gpt-3.5-turbo", temperature=0)
 #llm_4_00 = ChatOpenAI(model_name="gpt-4-1106-preview", temperature=0)
 embeddings = OpenAIEmbeddings()
 qclient = QdrantClient(
-    url=url, 
-    api_key=qdrant_api_key,
+    url=os.getenv("QDRANT_HOST"),
+    api_key=os.getenv("QDRANT_API_KEY")
 )
 vectorstore = Qdrant(client = qclient, collection_name = "knowledge", embeddings = embeddings)
 retriever_2 = vectorstore.as_retriever(search_type="similarity", search_kwargs={"k": 3})
